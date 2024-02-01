@@ -6,8 +6,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * The type Crop.
@@ -24,10 +28,26 @@ public class Crop {
   @Column(name = "planted_area")
   private Double plantedArea;
 
+  @Column(name = "planted_date")
+  private LocalDate plantedDate;
+
+  @Column(name = "harvest_date")
+  private LocalDate harvestDate;
+
   @ManyToOne
   @JoinColumn(name = "farm_id")
   private Farm farm;
 
+  @ManyToMany
+  @JoinTable(name = "crop_fertilizer",
+      joinColumns = @JoinColumn(name = "fertilizer_id"),
+      inverseJoinColumns = @JoinColumn(name = "crop_id"))
+
+  private List<Fertilizer> fertilizers;
+
+  /**
+   * Instantiates a new Crop.
+   */
   public Crop() {
   }
 
@@ -39,11 +59,39 @@ public class Crop {
    * @param plantedArea the planted area
    * @param farm        the farm
    */
-  public Crop(Long id, String name, Double plantedArea, Farm farm) {
+  public Crop(Long id, String name, Double plantedArea,
+      LocalDate plantedDate, LocalDate harvestDate, Farm farm, List<Fertilizer> fertilizers) {
     this.id = id;
     this.name = name;
     this.plantedArea = plantedArea;
+    this.plantedDate = plantedDate;
+    this.harvestDate = harvestDate;
     this.farm = farm;
+    this.fertilizers = fertilizers;
+  }
+
+  public LocalDate getPlantedDate() {
+    return plantedDate;
+  }
+
+  public List<Fertilizer> getFertilizers() {
+    return fertilizers;
+  }
+
+  public void setFertilizers(List<Fertilizer> fertilizers) {
+    this.fertilizers = fertilizers;
+  }
+
+  public void setPlantedDate(LocalDate plantedDate) {
+    this.plantedDate = plantedDate;
+  }
+
+  public LocalDate getHarvestDate() {
+    return harvestDate;
+  }
+
+  public void setHarvestDate(LocalDate harvestDate) {
+    this.harvestDate = harvestDate;
   }
 
   public Long getId() {
