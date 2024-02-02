@@ -52,7 +52,7 @@ public class FertilizerController {
   @GetMapping
   public ResponseEntity<List<FertilizerDto>> getAllFertilizers() {
     List<Fertilizer> fertilizers = fertilizerService.getAllFertilizers();
-    List<FertilizerDto> fertilizerDtos = fertilizers.stream().map(FertilizerDto::toDto).toList();
-    return ResponseEntity.ok(fertilizerDtos);
+    List<FertilizerDto> fertilizerDto = fertilizers.stream().map(FertilizerDto::toDto).toList();
+    return ResponseEntity.ok(fertilizerDto);
   }
 }

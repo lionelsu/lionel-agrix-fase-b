@@ -1,13 +1,17 @@
 package com.betrybe.agrix.controllers;
 
 import com.betrybe.agrix.controllers.dto.CropDto;
+import com.betrybe.agrix.controllers.dto.FertilizerDto;
 import com.betrybe.agrix.models.entities.Crop;
+import com.betrybe.agrix.models.entities.Fertilizer;
 import com.betrybe.agrix.services.CropService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,7 +37,7 @@ public class CropController {
   public ResponseEntity<List<CropDto>> getAllCrops() {
     List<Crop> allCrops = cropService.getAllCrops();
     List<CropDto> allCropsDto = allCrops.stream()
-        .map(crop -> CropDto.toDto(crop))
+        .map(CropDto::toDto)
         .toList();
     return ResponseEntity.ok(allCropsDto);
   }
@@ -42,5 +46,28 @@ public class CropController {
   public ResponseEntity<CropDto> getCropById(@PathVariable Long cropId) {
     Crop crop = cropService.getCropById(cropId);
     return ResponseEntity.ok(CropDto.toDto(crop));
+  }
+
+  /**
+   * Add fertilizer to crop.
+   */
+  @PostMapping("/{cropId}/fertilizers/{fertilizerId}")
+  public ResponseEntity<String> addFertilizerToCrop(
+      @PathVariable Long cropId, @PathVariable Long fertilizerId) {
+    cropService.addFertilizerToCrop(cropId, fertilizerId);
+    return ResponseEntity.status(HttpStatus.CREATED).body(
+        "Fertilizante e plantação associados com sucesso!");
+  }
+
+  /**
+   * Gets fertilizers by crop id.
+   */
+  @GetMapping("/{cropId}/fertilizers")
+  public ResponseEntity<List<FertilizerDto>> getFertilizersByCropId(@PathVariable Long cropId) {
+    List<Fertilizer> fertilizers = cropService.getFertilizersByCropId(cropId);
+    List<FertilizerDto> fertilizerDtos = fertilizers.stream()
+        .map(FertilizerDto::toDto)
+        .toList();
+    return ResponseEntity.ok(fertilizerDtos);
   }
 }
