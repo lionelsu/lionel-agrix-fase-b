@@ -6,6 +6,7 @@ import com.betrybe.agrix.models.entities.Crop;
 import com.betrybe.agrix.models.entities.Fertilizer;
 import com.betrybe.agrix.models.repositories.CropRepository;
 import com.betrybe.agrix.models.repositories.FertilizerRepository;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,5 +68,9 @@ public class CropService {
   public List<Fertilizer> getFertilizersByCropId(Long cropId) {
     Crop crop = cropRepository.findById(cropId).orElseThrow(CropNotFoundException::new);
     return crop.getFertilizers();
+  }
+
+  public List<Crop> findByPlantingDateBetween(LocalDate startDate, LocalDate endDate) {
+    return cropRepository.findByHarvestDateBetween(startDate, endDate);
   }
 }
