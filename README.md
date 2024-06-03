@@ -31,7 +31,7 @@ Criação de uma API para controle de fazendas com as seguintes rotas:
 ## Como Executar o Projeto
 1. Clone o repositório.
     ```bash
-    git clone git@github.com:lionelsu/lionel-agrix-fase-a.git && cd lionel-agrix-fase-a
+    git clone git@github.com:lionelsu/lionel-agrix-fase-b.git && cd lionel-agrix-fase-b
     ```
 
 2. Suba o ambiente com Docker Compose.
